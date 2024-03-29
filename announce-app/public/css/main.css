@@ -1,0 +1,8 @@
+.root {
+    height: 100%;
+    display: flex;
+    flex-direction: vertical;
+}
+p {
+    font-size: 20px;
+}
