@@ -117,6 +117,7 @@ const RSVPCardTemplate = (props) => {
           <FormField name="phone" htmlFor="text-input-id-3" label="Phone">
             <TextInput id="text-input-id-3" name="phone" />
           </FormField>
+          {/* TODO Enforce integer values in number field => new component?*/}
           <FormField name="people" htmlFor="text-input-id-4" label="* Est. Number of People" required>
             <TextInput id="text-input-id-4" name="people" />
           </FormField>
