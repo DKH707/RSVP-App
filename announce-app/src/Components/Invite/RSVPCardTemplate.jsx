@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Card, CardBody, CardHeader, CardFooter, Box, Heading, Button, 
+import { Card, CardBody, CardHeader, Box, Heading, Button, 
   Form, FormField, TextInput, Select, Spinner, Paragraph, Notification} from 'grommet';
-import { FormCheckmark, FormClose, MailOption, StatusCritical } from "grommet-icons";
+import { FormCheckmark, FormClose, StatusCritical } from "grommet-icons";
 
 export default function RSVPCardTemplate(props) {
     const [attend, setAttend] = useState('attending');
@@ -34,7 +34,7 @@ export default function RSVPCardTemplate(props) {
    }
 
     return (
-      <Card animation={"fadeIn"} responsive={true} elevation="xsmall" round="none">
+      <Card animation={"fadeIn"} responsive={false} elevation="xsmall" round="none" overflow={'scroll'}>
         <CardHeader pad="medium" background="background-contrast">
           <Heading level={3} margin="none" color={props.dark ? "teal" : "brand"}>
           {props.title}
@@ -97,12 +97,6 @@ export default function RSVPCardTemplate(props) {
                       message="Please contact dhopkins@buildtechsys.com"
                       onClose={()=>{setFailed(false)}}/>}
         </CardBody>
-        <CardFooter pad="small" background="background-contrast" justify="center">
-          <Box align="center">
-          <Paragraph justify="center" size="small"> update info | encountered an issue </Paragraph>
-          <Paragraph justify="center" size="small"> <MailOption size="small"/> dhopkins@buildtechsys.com</Paragraph>
-          </Box>
-        </CardFooter>
         </Card>
       );
   };

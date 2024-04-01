@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactCodeInput from 'react-code-input';
+import './codeInputField.css';
 import {grommet, Grommet, Page, PageContent, Box, Button, Markdown, Text, Image} from 'grommet';
 import { deepMerge } from "grommet/utils";
 import { Key, Moon, Sun } from 'grommet-icons';
