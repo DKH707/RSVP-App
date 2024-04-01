@@ -112,7 +112,7 @@ export default function Authorize(props){
 
     const checkPasscode = async() => {
       try{  
-        const resp = await fetch(`http://localhost:5050/authorize`,
+        const resp = await fetch(`/authorize`,
         {
           method: "POST",
           headers:{
