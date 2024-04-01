@@ -8,8 +8,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-app.use("/authorize", auth);
-app.use("/people", people);
+app.use("/api/auth", auth);
+app.use("/api/people", people);
 
 // start the Express server
 app.listen(PORT, () => {
