@@ -57,6 +57,8 @@ export default function Invite(props) {
 
   const rsvpSubmitFail = () => {
     
+    setTimeout(()=>{setShowForm(false)},7000)
+
   }
 
   return <>
