@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 const Protected = ({ isAuthorized, children }) => {
   if (!isAuthorized) {
-    return <Navigate to="/" replace />;
+    return <Navigate to="/authorize" replace />;
   }
   return children;
 };

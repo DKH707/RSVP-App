@@ -10,10 +10,10 @@ export default function CustomFooter(props){
     <Box {...props}>
         <MountainSVG style={{width: "100%", height: "auto", bottom: '0', position: 'relative'}}/>
     </Box>
-    <Box align="center" justify="center" round="full" overflow="hidden" responsive="shrink">
+    <Box align="center" justify="center" round="full" overflow="hidden" responsive={true}>
         <Image alignSelf="center" 
                src={tarletonLogo} 
-               style={{width: "120px", height: "auto", backgroundColor: "white"}}>
+               style={{width: "20vw", height: "auto", backgroundColor: "white"}}>
         </Image>
     </Box>
     </Stack>

@@ -1,23 +1,34 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route} from "react-router-dom";
+import { useEffect, useState } from "react";
 import Authorize from "./Components/Authorize/Authorize";
 import Invite from "./Components/Invite/Invite";
 import Protected from "./Components/Protected";
 
 function App() {
-  const [isAuthorized, setIsAuthorized] = useState(true);
+  const [isAuthorized, setIsAuthorized] = useState(false);
+
+  const setThemeLocalStorage = (theme) => {
+  
+    localStorage.setItem('theme', theme)
+    
+  }
+
+  const getTheme = () => {
+    return localStorage.getItem('theme')
+  }
+
   const authorize = () => {
     setIsAuthorized(true);
   };
   const unauthorize = () => {
     setIsAuthorized(false);
   };
+
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Authorize/>}></Route>
-        <Route path="/authorize" element={<Authorize/>}></Route>
-        <Route path="/invite" element={<Protected isAuthorized={isAuthorized}><Invite/></Protected>}></Route>
+        <Route path="/" element={<Protected isAuthorized={isAuthorized}><Invite  dark={getTheme()} updateTheme={(updatedTheme) => setThemeLocalStorage(updatedTheme)}/></Protected>}></Route>
+        <Route path="/authorize" element={<Authorize dark={getTheme()} onSuccess={authorize} onFail={unauthorize} updateTheme={(updatedTheme) => setThemeLocalStorage(updatedTheme)}/>}></Route>
       </Routes>
     </Router>    
   );

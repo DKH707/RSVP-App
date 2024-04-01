@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, grommet, Grommet, Header, Page, PageContent, 
          Text, Image, Layer} from 'grommet';
 import {  FormSchedule, Moon, Sun } from 'grommet-icons';
@@ -10,63 +10,82 @@ import LocationCardTemplate from "./LocationCardTemplate";
 import GraduationCountdown from "./GraduationCountdown";
 import CustomFooter from "./CustomFooter";
 
-export default function Invite() {
+export default function Invite(props) {
 
-const image = require("../../imgs/pfp_nobg.png")
+  const image = require("../../imgs/pfp_nobg.png")
 
-const theme = deepMerge(grommet, {
-  global: {
-    colors: {
-      brand: "#4F2D7F",
-      teal: "#00B1E1"
-    },
-    font: {
-      family: "Kode Mono",
-      size: "20px",
-      height: "20px",
-      color: "#00B1E1",
-    },
-  },
-});
-
-const AppBar = (props) =>(
-  <Header
-    animation={"slideDown"}
-    alignSelf="center"
-    pad={{ left: "medium", right: "small", vertical: "small" }}
-    elevation="none"
-    {...props}
-  />
-)
-
-const rows = ['auto', 'auto'];
-const columns = ['100%'];
-const may11_4pm = '2024-05-11T16:00:00'
-const testDate = '2024-03-11T16:00:00'
-
-  const [dark, setDark] = useState(true);
+  const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme'));
   const [showForm, setShowForm] = useState(false);
 
+  useEffect(()=>{},[currentTheme])
+
+  const theme = deepMerge(grommet, {
+    global: {
+      colors: {
+        brand: "#4F2D7F",
+        teal: "#00B1E1"
+      },
+      font: {
+        family: "Kode Mono",
+        size: "20px",
+        height: "20px",
+        color: "#00B1E1",
+      },
+    },
+  });
+
+  const AppBar = (props) =>(
+    <Header
+      animation={"slideDown"}
+      alignSelf="center"
+      pad={{ left: "medium", right: "small", vertical: "small" }}
+      elevation="none"
+      {...props}
+    />
+  )
+
+  const rows = ['auto', 'auto'];
+  const columns = ['100%'];
+  const may11_4pm = '2024-05-11T16:00:00'
+  const testDate = '2024-03-11T16:00:00'
+
+  const rsvpSubmitSuccess = () => {
+
+    setTimeout(()=>{setShowForm(false)},7000)
+
+  }
+
+  const rsvpSubmitFail = () => {
+    
+  }
+
   return <>
-    <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
+    <Grommet theme={theme} full themeMode={(currentTheme === 'dark') ? "dark" : "light"}>
       <Page kind="narrow">
         <Box animation="slideDown">
         <AppBar>
           <Box align="center" justify="center"  round="full">
               <Image src={image} style={{width: "60px"}}></Image>
           </Box>
-          <Text size="large" color={dark ? "teal" : "brand"}> derek's graduation party</Text>
+          <Text size="large" color={(currentTheme === 'dark') ? "teal" : "brand"}> derek's graduation party</Text>
           <Button
-            a11yTitle={dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-            icon={dark ? <Moon color="teal"/> : <Sun color="brand"/>}
-            onClick={() => setDark(!dark)}
+            a11yTitle={(currentTheme === 'dark') ? "Switch to Light Mode" : "Switch to Dark Mode"}
+            icon={(currentTheme === 'dark') ? <Moon color="teal"/> : <Sun color="brand"/>}
+            onClick={()=>{
+              if(currentTheme === 'dark'){
+              props.updateTheme('light')
+              setCurrentTheme('light')}
+            else {
+              props.updateTheme('dark')
+              setCurrentTheme('dark')
+            }}}
             tip={{
               content: (
                 <Box
                   pad="small"
                   round="small"
-                  background={dark ? "dark-1" : "light-3"}>
-                    {dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                  background={(currentTheme === 'dark') ? "dark-1" : "light-3"}>
+                    {(currentTheme === 'dark') ? "Switch to Light Mode" : "Switch to Dark Mode"}
                   </Box>
               ),
               plain: true
@@ -77,24 +96,23 @@ const testDate = '2024-03-11T16:00:00'
         <PageContent pad={{top: 'medium', bottom: "none"}} justifyContent="center">
           <Box background="background-contrast" animation={"slideDown"} align="center">
               <GraduationCountdown when={may11_4pm} 
-                                   dark={dark}/>
-              <Button icon={<FormSchedule color={dark ? "teal" : "brand"}/>}
-                      label="RSVP" 
+                                   dark={(currentTheme === 'dark')}/>
+              <Button icon={<FormSchedule color={(currentTheme === 'dark') ? "teal" : "brand"}/>}
+                      label="rsvp" 
                       margin="medium"
-                      color={dark ? "teal" : "brand"}
+                      color={(currentTheme === 'dark') ? "teal" : "brand"}
                       onClick={()=>{setShowForm(true)}}/>
-                      {showForm && (
+            {showForm && (
             <Layer onEsc={()=>{setShowForm(false)}}
                    onClickOutside={()=>{setShowForm(false)}}
                    animation={"slide"}>
-                  
-                  <RSVPCardTemplate title="RSVP " dark={dark} close={()=>{setShowForm(false)}}></RSVPCardTemplate>
+                  <RSVPCardTemplate title="rsvp " dark={(currentTheme === 'dark')} onSuccess={rsvpSubmitSuccess} onFailure={rsvpSubmitFail} close={()=>{setShowForm(false)}}></RSVPCardTemplate>
             </Layer>
           )}
           </Box>
           <Grid justifyContent="center" align="center" columns={columns} rows={rows} gap="none">
-            <LocationCardTemplate title="location:" dark={dark}></LocationCardTemplate>
-            <CalendarCardTemplate title="date & time:" dark={dark}></CalendarCardTemplate>
+            <LocationCardTemplate title="location:" dark={(currentTheme === 'dark')}></LocationCardTemplate>
+            <CalendarCardTemplate title="date & time:" dark={(currentTheme === 'dark')}></CalendarCardTemplate>
           </Grid>
         </PageContent>
         <CustomFooter responsive={true} align="center"/>

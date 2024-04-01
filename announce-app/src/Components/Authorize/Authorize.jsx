@@ -1,16 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import ReactCodeInput from 'react-code-input';
-import {grommet, Grommet, Page, PageContent, Box, Paragraph, Form, FormField, Button, TextInput, Markdown} from 'grommet';
+import {grommet, Grommet, Page, PageContent, Box, Button, Markdown, Text, Image} from 'grommet';
 import { deepMerge } from "grommet/utils";
-import { Code, Cpu, Key, Moon, Sun, Technology, Terminal, Lock } from 'grommet-icons';
+import { Key, Moon, Sun } from 'grommet-icons';
+import { Navigate } from 'react-router-dom';
 import CustomFooter from '../Invite/CustomFooter';
-import axios from 'axios';
 
-export default function Authorize(){
 
-    const [dark, setDark] = useState(true);
+export default function Authorize(props){
+
+    const redBlackImg = require('.//../../imgs/redBlackBTS.png')
+    const whiteRedImg = require('.//../../imgs/whiteRedBTS.png')
+
+    const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme'));
     const [value, setValue] = useState({})
+    const [authorized, setAuthorized] = useState(false);
+    const [navigate, setNavigate] = useState(false);
+
+    useEffect(()=>{},[currentTheme])
+
+    useEffect(()=> {
+      if(value.length === 6) {
+      checkPasscode()
+      console.log('verifying code with HQ. . .')
+      }
+    },[value])
+
+    useEffect(()=> {
+      if(authorized)
+        setTimeout(()=>{setNavigate(true)},3000)
+    },[authorized])
 
     const theme = deepMerge(grommet, {
         global: {
@@ -33,7 +52,7 @@ export default function Authorize(){
         },
       });
 
-      const darkInputStyle = {
+    const darkInputStyle = {
         inputStyle: {
           fontFamily: 'Kode Mono',
           margin:  '4px',
@@ -60,9 +79,9 @@ export default function Authorize(){
           color: 'red',
           border: '1px solid red'
         }
-      }
+    }
 
-      const lightInputStyle = {
+    const lightInputStyle = {
         inputStyle: {
           fontFamily: 'Kode Mono',
           margin:  '4px',
@@ -89,34 +108,66 @@ export default function Authorize(){
           color: 'red',
           border: '1px solid red'
         }
+    }
+
+    const checkPasscode = async() => {
+      try{  
+        const resp = await fetch(`http://localhost:5050/authorize`,
+        {
+          method: "POST",
+          headers:{
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            input: value
+          })
+        })
+        const data = resp.ok
+        console.log(`code match? | ${data}`)
+        if(data){
+          setAuthorized(true)
+          props.onSuccess()
+
+        } else {
+          setAuthorized(false)
+          props.onFail()
+
+        }
       }
-
-    useEffect(()=> {
-      if(value){
-        console.log(value)}},[value])
-
+      catch (e){
+        console.log(e)
+      }
+    }
+    
     return <>
-        <Grommet theme={theme} full themeMode={dark ? "dark" : "light"}>
-        <Page kind="narrow" fill="vertical">
+        <Grommet theme={theme} full themeMode={(currentTheme === 'dark') ? "dark" : "light"}>
+        <Page kind="narrow" fill="horizontal">
             <PageContent>
-                <Box alignSelf="center" gap="medium" align="center">
-                  <Button icon={dark ? <Moon/> : <Sun/>} onClick={()=>setDark(!dark)} 
+                <Box alignSelf="center" gap="medium" align="center" style={{height: "77vh"}}>
+                  <Button icon={(currentTheme === 'dark') ? <Moon/> : <Sun/>} 
+                  onClick={()=>{
+                              if(currentTheme === 'dark'){
+                                props.updateTheme('light')
+                                setCurrentTheme('light')}
+                              else {
+                                props.updateTheme('dark')
+                                setCurrentTheme('dark')
+                              }}} 
                           tip={{
                                   content: (
                                     <Box
                                       pad="small"
                                       round="small"
-                                      background={dark ? "dark-1" : "light-3"}>
-                                        {dark ? "Switch to Light Mode" : "Switch to Dark Mode"}
+                                      background={(currentTheme === 'dark') ? "dark-1" : "light-3"}>
+                                        {(currentTheme === 'dark') ? "Switch to Light Mode" : "Switch to Dark Mode"}
                                       </Box>
                                   ),
-                                  plain: true
-                          }}></Button>
-                    {dark ? 
-                    <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=00B1E1&center=true&vCenter=true&random=false&width=435&height=60&lines=Insert+Access+Code)</Markdown>
-                  : <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=4F2D7F&center=true&vCenter=true&random=false&width=435&height=60&lines=Insert+Access+Code)</Markdown>}
-                    
-                    { dark ? 
+                                  plain: true}}></Button>
+                    {(currentTheme === 'dark') ? 
+                    <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=00B1E1&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>
+                  : <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=4F2D7F&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>}
+                    <Text>{"< "}<Key size="small"/> {" >"}</Text>
+                    { (currentTheme === 'dark') ? 
                     <ReactCodeInput type='number'
                                     inputMode='numeric'
                                     fields={6}
@@ -132,8 +183,19 @@ export default function Authorize(){
                                     onChange={(val)=>setValue(val)}
                                     pattern={/^[0-9]+$/}
                                     {...lightInputStyle}/>}
+                  {!authorized && 
+                  <Box style={{height: "60px", width:"435px"}}/>}
+                  {authorized && 
+                  <Box animation={"pulse"} align="center">
+                    <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&duration=2000&pause=3000&color=02E100&center=true&vCenter=true&random=false&width=435&height=60&lines=Access+Granted)</Markdown>
+                  </Box>}
+                  {navigate && <Navigate to="/" replace/>}
+                  
+                  {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}></Image> : <Image src={redBlackImg} style={{width:"40vw"}}></Image>}
+                  
                 </Box>
             </PageContent>
+            <CustomFooter responsive={true} align="center"/>
         </Page>
         </Grommet>
     </>

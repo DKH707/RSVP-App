@@ -1,14 +1,36 @@
 import React, { useState } from "react";
-import { Card, CardBody, CardHeader, CardFooter, Box, Heading, Button, Form, FormField, TextInput, Select, Paragraph} from 'grommet';
-import { FormClose, MailOption } from "grommet-icons";
+import { Card, CardBody, CardHeader, CardFooter, Box, Heading, Button, 
+  Form, FormField, TextInput, Select, Spinner, Paragraph, Notification} from 'grommet';
+import { FormCheckmark, FormClose, MailOption, StatusCritical } from "grommet-icons";
 
 export default function RSVPCardTemplate(props) {
     const [attend, setAttend] = useState('attending');
     const [numPeople, setNumPeople] = useState(0);
-    const [value, setValue] = useState({ planned_attendance: attend, people: numPeople });
+    const [value, setValue] = useState({ plannedAttendance: attend, people: numPeople });
+    const [loading, setLoading] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [failed, setFailed] = useState(false);
   
-    const handleRSVPSubmit = (value) => {
-        console.log(value)
+    const handleRSVPSubmit = (val) => {
+      setLoading(true)
+      fetch(`http://localhost:5050/people`,{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(value)
+      })
+      .then(()=>{
+        setLoading(false)
+        setSubmitted(true)
+        setFailed(false)
+        props.onSuccess()
+      })
+      .catch((e)=>{
+        setLoading(false)
+        setFailed(true)
+        setSubmitted(false)
+        console.log(e)
+        props.onFail()
+      })  
    }
 
     return (
@@ -20,14 +42,13 @@ export default function RSVPCardTemplate(props) {
           <Button align="right" icon={<FormClose/>} onClick={props.close}></Button>
         </CardHeader>
         <CardBody pad="medium">
-          <Form value={value}
+          {!loading && !submitted && <Form value={value}
                 onChange={nextValue => setValue(nextValue)}
-                onReset={() => setValue({})}
                 onSubmit={({ value }) => {handleRSVPSubmit(value)}}>
-            <FormField name="planned-attendance" htmlFor="planned-attendance-id">
+            <FormField name="plannedAttendance" htmlFor="planned-attendance-id">
               <Paragraph>I plan on</Paragraph>
               <Select
-                  name="planned-attendance"
+                  name="plannedAttendance"
                   id='planned-attendance-id'
                   options={['attending', 'not attending']}
                   value={attend}
@@ -57,13 +78,28 @@ export default function RSVPCardTemplate(props) {
             </FormField>
             <Box direction="row" gap="medium">
               <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"}/>
-              <Button type="reset" label="Reset" color={props.dark ? "teal" : "brand"}/>
             </Box>
-          </Form>
+          </Form>}
+          {loading && 
+          <Box align="center" animation={"slideUp"}>
+            <Spinner size="large" color={{dark: "teal",light: "brand"}}/>
+          </Box>}
+          {submitted && 
+          <Box align="center" justfiyContent="center" animation={"slideUp"}  style={{height: "100vh"}}>
+            <FormCheckmark style={{paddingTop: "50%"}}size="large" color={{dark: "#22FF13", light:"#1C6018"}}/>
+            <Paragraph color={{dark: "#22FF13", light:"#1C6018"}}>RSVP Received Successfully</Paragraph>
+          </Box>}
+          {failed && <Notification
+                      toast
+                      icon={<StatusCritical/>}
+                      status="critical"
+                      title="Submission Failed"
+                      message="Please contact dhopkins@buildtechsys.com"
+                      onClose={()=>{setFailed(false)}}/>}
         </CardBody>
         <CardFooter pad="small" background="background-contrast" justify="center">
           <Box align="center">
-          <Paragraph justify="center" size="small">Encounter issues? </Paragraph>
+          <Paragraph justify="center" size="small"> update info | encountered an issue </Paragraph>
           <Paragraph justify="center" size="small"> <MailOption size="small"/> dhopkins@buildtechsys.com</Paragraph>
           </Box>
         </CardFooter>
