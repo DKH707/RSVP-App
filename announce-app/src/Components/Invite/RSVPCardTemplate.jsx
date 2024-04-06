@@ -43,7 +43,7 @@ export default function RSVPCardTemplate(props) {
 
     return (
       <Card animation={"fadeIn"} responsive={true} elevation="none" round="none">
-        <CardHeader pad="medium" background="background-contrast">
+        <CardHeader pad="small" background="background-contrast">
           <Heading level={3} margin="none" color={props.dark ? "teal" : "brand"}>
           {props.title}
           </Heading>
@@ -53,30 +53,32 @@ export default function RSVPCardTemplate(props) {
           {!loading && !submitted && <Form value={value}
                 onChange={nextValue => setValue(nextValue)}
                 onSubmit={({ value }) => {handleRSVPSubmit(value)}}>
-            <FormField name="plannedAttendance" htmlFor="planned-attendance-id" label="I plan on">
+            <FormField size={"small"} name="plannedAttendance" htmlFor="planned-attendance-id" label="I plan on">
               <Select
                   name="plannedAttendance"
                   icon={<Down size="small"/>}
                   id='planned-attendance-id'
                   options={['attending', 'not attending']}
                   value={attend}
+                  size="small"
                   onChange={({ option }) => setAttend(option)}
                 />
             </FormField>
-            <FormField name="name" htmlFor="text-input-id-1" label="Name*" required>
-              <TextInput id="text-input-id-1" name="name" icon={<Terminal size="small"/>} reverse/>
+            <FormField name="name" htmlFor="text-input-id-1" label="Name*" size={"small"} required>
+              <TextInput id="text-input-id-1" name="name" size="small" icon={<Terminal size="small"/>} reverse/>
             </FormField>
-            <FormField name="email" htmlFor="emailAddress" label="Email">
-              <MaskedInput id="emailAddress" name="email" icon={<MailOption size="small"/>} reverse
+            <FormField name="email" htmlFor="emailAddress" label="Email" size={"small"}>
+              <MaskedInput id="emailAddress" size={"small"} name="email" icon={<MailOption size="small"/>} reverse
                            mask={[{placeholder: "fake@fake.com"}]}/>
             </FormField>
-            <FormField name="phone" htmlFor="phoneNumber" label="Phone">
-              <MaskedInput id="phoneNumber" name="phone" icon={<Phone size="small"/>} reverse
+            <FormField name="phone" htmlFor="phoneNumber" label="Phone" size={"small"}>
+              <MaskedInput id="phoneNumber" size={"small"} name="phone" icon={<Phone size="small"/>} reverse
                            mask={[{length: 3, placeholder: 555,},{ fixed: "-"},{length: 3, placeholder: 555},{ fixed: "-"}, {length: 4, placeholder: 5555}]}/>
             </FormField>
-            <FormField name="people" htmlFor="num-of-people-id" label={"Est. Number of People"}>
+            <FormField size={"small"} name="people" htmlFor="num-of-people-id" label={"Est. Number of People"}>
             <Select
                   name="people"
+                  size={"small"}
                   icon={<Group size="small"/>}
                   id='num-of-people-id'
                   options={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -84,11 +86,11 @@ export default function RSVPCardTemplate(props) {
                   onChange={({ option }) => setNumPeople(option)}
                 />    
             </FormField>
-            <FormField name="note" htmlFor="text-input-id-4" label="Additional Notes">
-              <TextArea id="text-input-id-4" name="note"/>
+            <FormField name="note" size={"small"} htmlFor="text-input-id-4" label="Additional Notes">
+              <TextArea size={"small"} id="text-input-id-4" name="note"/>
             </FormField>
-            <Box direction="row" gap="medium" animation="slideRight" style={{paddingBottom: "10vh"}}>
-              <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
+            <Box size={"small"} direction="row" gap="medium" animation="slideRight" style={{paddingBottom: "10vh"}}>
+              <Button size={"small"} type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
             </Box>
           </Form>}
           {loading && 
