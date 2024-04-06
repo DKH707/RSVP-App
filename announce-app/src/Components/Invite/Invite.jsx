@@ -47,8 +47,7 @@ export default function Invite(props) {
 
   const rows = ['auto', 'auto'];
   const columns = ['100%'];
-  const may11_4pm = '2024-05-11T16:00:00'
-  const testDate = '2024-03-11T16:00:00'
+  const date= '2024-05-11T16:00:00'
 
   const rsvpSubmitSuccess = () => {
 
@@ -98,7 +97,7 @@ export default function Invite(props) {
         </Box>
         <PageContent pad={{top: 'medium', bottom: "none"}} justifyContent="center">
           <Box background="background-contrast" animation={"slideDown"} align="center">
-              <GraduationCountdown when={may11_4pm} 
+              <GraduationCountdown when={date} 
                                    dark={(currentTheme === 'dark')}/>
               <Button icon={<FormSchedule color={(currentTheme === 'dark') ? "teal" : "brand"}/>}
                       label="rsvp" 

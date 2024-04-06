@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader, Box, Heading, Button, 
-  Form, FormField, TextInput, Select, Spinner, Paragraph, Notification, MaskedInput} from 'grommet';
-import { CaretDown, Down, FormCheckmark, FormClose, FormDown, Group, MailOption, Note, Phone, StatusCritical, StatusGood, Terminal, Validate } from "grommet-icons";
+  Form, FormField, TextArea, TextInput, Select, Spinner, Paragraph, Notification, MaskedInput} from 'grommet';
+import { Down, FormClose, Group, MailOption, Phone, StatusCritical, StatusGood, Terminal, Validate } from "grommet-icons";
 
 export default function RSVPCardTemplate(props) {
     const [attend, setAttend] = useState('attending');
@@ -13,23 +13,31 @@ export default function RSVPCardTemplate(props) {
   
     const handleRSVPSubmit = (val) => {
       setLoading(true)
-      fetch(`/api/people`,{
+      fetch(`http://localhost:5050/api/people`,{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(value)
       })
-      .then(()=>{
+      .then((resp)=>{
+        if (resp.status < 400){
         setLoading(false)
         setSubmitted(true)
         setFailed(false)
         props.onSuccess()
+        }
+        else{
+          setLoading(false)
+          setFailed(true)
+          setSubmitted(false)
+          props.onFailure()
+        }
       })
       .catch((e)=>{
         setLoading(false)
         setFailed(true)
         setSubmitted(false)
         console.log(e)
-        props.onFail()
+        props.onFailure()
       })  
    }
 
@@ -45,8 +53,7 @@ export default function RSVPCardTemplate(props) {
           {!loading && !submitted && <Form value={value}
                 onChange={nextValue => setValue(nextValue)}
                 onSubmit={({ value }) => {handleRSVPSubmit(value)}}>
-            <FormField name="plannedAttendance" htmlFor="planned-attendance-id">
-              <Paragraph>I plan on</Paragraph>
+            <FormField name="plannedAttendance" htmlFor="planned-attendance-id" label="I plan on">
               <Select
                   name="plannedAttendance"
                   icon={<Down size="small"/>}
@@ -78,9 +85,9 @@ export default function RSVPCardTemplate(props) {
                 />    
             </FormField>
             <FormField name="note" htmlFor="text-input-id-4" label="Additional Notes">
-              <TextInput id="text-input-id-4" name="note" icon={<Note size="small"/>} reverse/>
+              <TextArea id="text-input-id-4" name="note"/>
             </FormField>
-            <Box direction="row" gap="medium">
+            <Box direction="row" gap="medium" animation="slideRight">
               <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
             </Box>
           </Form>}
