@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import ReactCodeInput from 'react-code-input';
+import './codeInputField.css';
 import {grommet, Grommet, Page, PageContent, Box, Button, Markdown, Text, Image} from 'grommet';
 import { deepMerge } from "grommet/utils";
-import { Key, Moon, Sun } from 'grommet-icons';
+import { Key, Lock, Moon, Sun, Unlock } from 'grommet-icons';
 import { Navigate } from 'react-router-dom';
 import CustomFooter from '../Invite/CustomFooter';
 
@@ -112,7 +113,7 @@ export default function Authorize(props){
 
     const checkPasscode = async() => {
       try{  
-        const resp = await fetch(`http://localhost:5050/authorize`,
+        const resp = await fetch(`/api/auth`,
         {
           method: "POST",
           headers:{
@@ -131,7 +132,6 @@ export default function Authorize(props){
         } else {
           setAuthorized(false)
           props.onFail()
-
         }
       }
       catch (e){
@@ -141,8 +141,8 @@ export default function Authorize(props){
     
     return <>
         <Grommet theme={theme} full themeMode={(currentTheme === 'dark') ? "dark" : "light"}>
-        <Page kind="narrow" fill="horizontal">
-            <PageContent>
+        <Page kind="narrow" fill="horizontal" overflow="hidden">
+            <PageContent >
                 <Box alignSelf="center" gap="medium" align="center" style={{height: "77vh"}}>
                   <Button icon={(currentTheme === 'dark') ? <Moon/> : <Sun/>} 
                   onClick={()=>{
@@ -184,14 +184,19 @@ export default function Authorize(props){
                                     pattern={/^[0-9]+$/}
                                     {...lightInputStyle}/>}
                   {!authorized && 
-                  <Box style={{height: "60px", width:"435px"}}/>}
+                  <Box style={{height: "60px", width:"435px"}} align="center" animation={"slideUp"}>
+                    <Lock color="red"/>
+                    </Box>}
                   {authorized && 
-                  <Box animation={"pulse"} align="center">
-                    <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&duration=2000&pause=3000&color=02E100&center=true&vCenter=true&random=false&width=435&height=60&lines=Access+Granted)</Markdown>
+                  <Box style={{height: "60px", width:"435px"}} align="center" animation={"slideUp"}>
+                    <Unlock color="#02E100"/>
+                    <Box animation={"pulse"} style={{height: "60px", width:"435px"}} align="center">
+                      <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&duration=2000&pause=3000&color=02E100&center=true&vCenter=true&random=false&width=435&height=60&lines=Access+Granted)</Markdown>
+                    </Box>
                   </Box>}
                   {navigate && <Navigate to="/" replace/>}
                   
-                  {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}></Image> : <Image src={redBlackImg} style={{width:"40vw"}}></Image>}
+                  {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}/>: <Image src={redBlackImg} style={{width:"40vw"}}/>}
                   
                 </Box>
             </PageContent>

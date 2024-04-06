@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Grid, grommet, Grommet, Header, Page, PageContent, 
-         Text, Image, Layer} from 'grommet';
-import {  FormSchedule, Moon, Sun } from 'grommet-icons';
+         Paragraph, Text, Image, Layer} from 'grommet';
+import {  FormSchedule, MailOption, Moon, Sun } from 'grommet-icons';
 import { deepMerge } from "grommet/utils";
 
 import RSVPCardTemplate from "./RSVPCardTemplate";
@@ -22,6 +22,7 @@ export default function Invite(props) {
   const theme = deepMerge(grommet, {
     global: {
       colors: {
+        focus: {dark: "#00B1E1", light: "#4F2D7F"},
         brand: "#4F2D7F",
         teal: "#00B1E1"
       },
@@ -30,7 +31,7 @@ export default function Invite(props) {
         size: "20px",
         height: "20px",
         color: "#00B1E1",
-      },
+      }
     },
   });
 
@@ -104,6 +105,9 @@ export default function Invite(props) {
                       margin="medium"
                       color={(currentTheme === 'dark') ? "teal" : "brand"}
                       onClick={()=>{setShowForm(true)}}/>
+              <Paragraph justify="center" size="small" color="orange"> encountered an issue? </Paragraph>
+              <Paragraph justify="center" size="small"> <MailOption size="small"/> dhopkins@buildtechsys.com</Paragraph>
+          
             {showForm && (
             <Layer onEsc={()=>{setShowForm(false)}}
                    onClickOutside={()=>{setShowForm(false)}}

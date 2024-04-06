@@ -1,8 +1,36 @@
-import React from 'react';
-import { Card, CardBody, CardHeader, CardFooter,Heading, Paragraph} from 'grommet';
+import React, {useEffect, useState} from 'react';
+import { Box, Card, CardBody, CardHeader, CardFooter,Heading, Paragraph, Spinner} from 'grommet';
 import { Location } from 'grommet-icons';
 
 export default function LocationCardTemplate(props) {
+
+  const [location, setLocation] = useState({});
+  const [loading, setLoading] = useState(false);
+  let data = {};
+
+  useEffect(()=>{
+    load()
+  },[])
+
+  const load = async () => {
+    setLoading(true)
+    let results = null;
+    try{
+      results = await fetch(`/api/info`,
+      {
+        method: "POST",
+        headers:{
+        "Content-Type": "application/json"
+      }})
+    }
+    catch (e) {
+      console.log(e)
+    }
+    data = await results.json()
+    setLocation(data[0])
+    setLoading(false)
+  }
+
     return (
         <Card animation={"slideDown"} responsive={true} elevation="none" round="false">
         <CardHeader pad="medium" background="background-contrast">
@@ -19,7 +47,11 @@ export default function LocationCardTemplate(props) {
           </CardBody>
           <CardFooter pad="small" background="background-contrast" justify="center">
           <Location color={props.dark ? "teal" : "brand"}/> 
-            <Paragraph>808 Red Oak Ct <br/> Crowley, TX 76036</Paragraph>
+          {!loading && <Paragraph>{location.streetAddress} <br/> {location.city}, {location.state} {location.zip}</Paragraph>}
+          {loading && 
+          <Box align="center" animation={"slideUp"}>
+            <Spinner size="small" color={{dark: "teal",light: "brand"}}/>
+          </Box>}
           </CardFooter>
         </Card>
       );
