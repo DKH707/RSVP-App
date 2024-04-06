@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
         res.send(result).status(204);
       } catch (err) {
         console.error(err);
-        res.status(500).send("Error adding record");
+        res.send("Error adding record").status(500);
       }
 });
 

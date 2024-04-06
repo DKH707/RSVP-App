@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader, Box, Heading, Button, 
-  Form, FormField, TextInput, Select, Spinner, Paragraph, Notification, MaskedInput} from 'grommet';
-import { FormCheckmark, FormClose, Group, MailOption, Note, Phone, StatusCritical } from "grommet-icons";
+  Form, FormField, TextArea, TextInput, Select, Spinner, Paragraph, Notification, MaskedInput} from 'grommet';
+import { Down, FormClose, Group, MailOption, Phone, StatusCritical, StatusGood, Terminal, Validate } from "grommet-icons";
 
 export default function RSVPCardTemplate(props) {
     const [attend, setAttend] = useState('attending');
@@ -13,28 +13,36 @@ export default function RSVPCardTemplate(props) {
   
     const handleRSVPSubmit = (val) => {
       setLoading(true)
-      fetch(`/api/people`,{
+      fetch(`http://localhost:5050/api/people`,{
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(value)
       })
-      .then(()=>{
+      .then((resp)=>{
+        if (resp.status < 400){
         setLoading(false)
         setSubmitted(true)
         setFailed(false)
         props.onSuccess()
+        }
+        else{
+          setLoading(false)
+          setFailed(true)
+          setSubmitted(false)
+          props.onFailure()
+        }
       })
       .catch((e)=>{
         setLoading(false)
         setFailed(true)
         setSubmitted(false)
         console.log(e)
-        props.onFail()
+        props.onFailure()
       })  
    }
 
     return (
-      <Card animation={"fadeIn"} responsive={false} elevation="none" round="none">
+      <Card animation={"fadeIn"} responsive={true} elevation="none" round="none">
         <CardHeader pad="medium" background="background-contrast">
           <Heading level={3} margin="none" color={props.dark ? "teal" : "brand"}>
           {props.title}
@@ -45,10 +53,10 @@ export default function RSVPCardTemplate(props) {
           {!loading && !submitted && <Form value={value}
                 onChange={nextValue => setValue(nextValue)}
                 onSubmit={({ value }) => {handleRSVPSubmit(value)}}>
-            <FormField name="plannedAttendance" htmlFor="planned-attendance-id">
-              <Paragraph>I plan on</Paragraph>
+            <FormField name="plannedAttendance" htmlFor="planned-attendance-id" label="I plan on">
               <Select
                   name="plannedAttendance"
+                  icon={<Down size="small"/>}
                   id='planned-attendance-id'
                   options={['attending', 'not attending']}
                   value={attend}
@@ -56,7 +64,7 @@ export default function RSVPCardTemplate(props) {
                 />
             </FormField>
             <FormField name="name" htmlFor="text-input-id-1" label="Name*" required>
-              <TextInput id="text-input-id-1" name="name" />
+              <TextInput id="text-input-id-1" name="name" icon={<Terminal size="small"/>} reverse/>
             </FormField>
             <FormField name="email" htmlFor="emailAddress" label="Email">
               <MaskedInput id="emailAddress" name="email" icon={<MailOption size="small"/>} reverse
@@ -77,10 +85,10 @@ export default function RSVPCardTemplate(props) {
                 />    
             </FormField>
             <FormField name="note" htmlFor="text-input-id-4" label="Additional Notes">
-              <TextInput id="text-input-id-4" name="note" icon={<Note size="small"/>} reverse/>
+              <TextArea id="text-input-id-4" name="note"/>
             </FormField>
-            <Box direction="row" gap="medium">
-              <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"}/>
+            <Box direction="row" gap="medium" animation="slideRight">
+              <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
             </Box>
           </Form>}
           {loading && 
@@ -89,7 +97,7 @@ export default function RSVPCardTemplate(props) {
           </Box>}
           {submitted && 
           <Box align="center" justfiyContent="center" animation={"slideUp"} elevation="none">
-            <FormCheckmark style={{paddingTop: "auto"}} size="large" color={{dark: "#22FF13", light:"#1C6018"}}/>
+            <StatusGood style={{paddingTop: "auto"}} size="large" color={{dark: "#22FF13", light:"#1C6018"}}/>
             <Paragraph color={{dark: "#22FF13", light:"#1C6018"}}>RSVP Received Successfully</Paragraph>
           </Box>}
           {failed && <Notification
