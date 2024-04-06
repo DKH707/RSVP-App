@@ -22,6 +22,7 @@ export default function Invite(props) {
   const theme = deepMerge(grommet, {
     global: {
       colors: {
+        focus: {dark: "#00B1E1", light: "#4F2D7F"},
         brand: "#4F2D7F",
         teal: "#00B1E1"
       },
@@ -30,7 +31,7 @@ export default function Invite(props) {
         size: "20px",
         height: "20px",
         color: "#00B1E1",
-      },
+      }
     },
   });
 
