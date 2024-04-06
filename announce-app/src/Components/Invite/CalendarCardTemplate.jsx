@@ -34,14 +34,14 @@ export default function CalendarCardTemplate(props) {
     }
 
     return (
-      <Card animation={"slideDown"} responsive={true} elevation="none" round="false">
+      <Card animation={"slideDown"} responsive={true} elevation="none" round="false" flex="shrink">
         <CardHeader pad="medium" background="background-contrast">
           <Heading level={3} margin="none" color={props.dark ? "teal" : "brand"}>
           {props.title}
           </Heading>
         </CardHeader>
         <CardBody pad="medium" background="background-contrast">
-          <Calendar fill={true} size="medium" reference="2024-5-11" date="2024-5-11" daysOfWeek={true}/>
+          <Calendar fill={true} size="medium" reference="2024-05-11" date="2024-05-11" daysOfWeek={true}/>
         </CardBody>
         <CardFooter pad="small" background="background-contrast" justify="center">
           <Bookmark color={props.dark ? "teal" : "brand"}/> 

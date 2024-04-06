@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader, Box, Heading, Button, 
   Form, FormField, TextInput, Select, Spinner, Paragraph, Notification, MaskedInput} from 'grommet';
-import { FormCheckmark, FormClose, Group, MailOption, Note, Phone, StatusCritical } from "grommet-icons";
+import { CaretDown, Down, FormCheckmark, FormClose, FormDown, Group, MailOption, Note, Phone, StatusCritical, StatusGood, Terminal, Validate } from "grommet-icons";
 
 export default function RSVPCardTemplate(props) {
     const [attend, setAttend] = useState('attending');
@@ -34,7 +34,7 @@ export default function RSVPCardTemplate(props) {
    }
 
     return (
-      <Card animation={"fadeIn"} responsive={false} elevation="none" round="none">
+      <Card animation={"fadeIn"} responsive={true} elevation="none" round="none">
         <CardHeader pad="medium" background="background-contrast">
           <Heading level={3} margin="none" color={props.dark ? "teal" : "brand"}>
           {props.title}
@@ -49,6 +49,7 @@ export default function RSVPCardTemplate(props) {
               <Paragraph>I plan on</Paragraph>
               <Select
                   name="plannedAttendance"
+                  icon={<Down size="small"/>}
                   id='planned-attendance-id'
                   options={['attending', 'not attending']}
                   value={attend}
@@ -56,7 +57,7 @@ export default function RSVPCardTemplate(props) {
                 />
             </FormField>
             <FormField name="name" htmlFor="text-input-id-1" label="Name*" required>
-              <TextInput id="text-input-id-1" name="name" />
+              <TextInput id="text-input-id-1" name="name" icon={<Terminal size="small"/>} reverse/>
             </FormField>
             <FormField name="email" htmlFor="emailAddress" label="Email">
               <MaskedInput id="emailAddress" name="email" icon={<MailOption size="small"/>} reverse
@@ -80,7 +81,7 @@ export default function RSVPCardTemplate(props) {
               <TextInput id="text-input-id-4" name="note" icon={<Note size="small"/>} reverse/>
             </FormField>
             <Box direction="row" gap="medium">
-              <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"}/>
+              <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
             </Box>
           </Form>}
           {loading && 
@@ -89,7 +90,7 @@ export default function RSVPCardTemplate(props) {
           </Box>}
           {submitted && 
           <Box align="center" justfiyContent="center" animation={"slideUp"} elevation="none">
-            <FormCheckmark style={{paddingTop: "auto"}} size="large" color={{dark: "#22FF13", light:"#1C6018"}}/>
+            <StatusGood style={{paddingTop: "auto"}} size="large" color={{dark: "#22FF13", light:"#1C6018"}}/>
             <Paragraph color={{dark: "#22FF13", light:"#1C6018"}}>RSVP Received Successfully</Paragraph>
           </Box>}
           {failed && <Notification

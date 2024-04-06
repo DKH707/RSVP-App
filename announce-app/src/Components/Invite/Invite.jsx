@@ -111,7 +111,8 @@ export default function Invite(props) {
             {showForm && (
             <Layer onEsc={()=>{setShowForm(false)}}
                    onClickOutside={()=>{setShowForm(false)}}
-                   animation={"slide"}>
+                   animation={"slide"}
+                   responsive={false}>
                   <RSVPCardTemplate title="rsvp " dark={(currentTheme === 'dark')} onSuccess={rsvpSubmitSuccess} onFailure={rsvpSubmitFail} close={()=>{setShowForm(false)}}></RSVPCardTemplate>
             </Layer>
           )}
