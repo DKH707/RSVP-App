@@ -87,7 +87,7 @@ export default function RSVPCardTemplate(props) {
             <FormField name="note" htmlFor="text-input-id-4" label="Additional Notes">
               <TextArea id="text-input-id-4" name="note"/>
             </FormField>
-            <Box direction="row" gap="medium" animation="slideRight">
+            <Box direction="row" gap="medium" animation="slideRight" style={{paddingBottom: "10vh"}}>
               <Button type="submit" primary label="Submit" color={props.dark ? "teal" : "brand"} icon={<Validate/>}/>
             </Box>
           </Form>}
