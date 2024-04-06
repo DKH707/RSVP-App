@@ -41,7 +41,7 @@ export default function CalendarCardTemplate(props) {
           </Heading>
         </CardHeader>
         <CardBody pad="medium" background="background-contrast">
-          <Calendar fill={true} size="medium" date="2024-5-11" daysOfWeek={true}/>
+          <Calendar fill={true} size="medium" reference="2024-5-11" date="2024-5-11" daysOfWeek={true}/>
         </CardBody>
         <CardFooter pad="small" background="background-contrast" justify="center">
           <Bookmark color={props.dark ? "teal" : "brand"}/> 
