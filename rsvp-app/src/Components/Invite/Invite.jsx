@@ -7,7 +7,9 @@ import { deepMerge } from "grommet/utils";
 import RSVPCardTemplate from "./RSVPCardTemplate";
 import CalendarCardTemplate from "./CalendarCardTemplate";
 import LocationCardTemplate from "./LocationCardTemplate";
+
 import EventCountdown from "./EventCountdown";
+
 import CustomFooter from "./CustomFooter";
 
 export default function Invite(props) {
@@ -69,7 +71,9 @@ export default function Invite(props) {
           <Box align="center" justify="center"  round="full">
               <Image src={image} style={{width: "60px"}}></Image>
           </Box>
+
           <Text size="large" color={(currentTheme === 'dark') ? "teal" : "brand"}> derek's big event</Text>
+
           <Button
             a11yTitle={(currentTheme === 'dark') ? "Switch to Light Mode" : "Switch to Dark Mode"}
             icon={(currentTheme === 'dark') ? <Moon color="teal"/> : <Sun color="brand"/>}
@@ -97,7 +101,9 @@ export default function Invite(props) {
         </Box>
         <PageContent pad={{top: 'medium', bottom: "none"}} justifyContent="center">
           <Box background="background-contrast" animation={"slideDown"} align="center">
+
               <EventCountdown when={date} 
+
                                    dark={(currentTheme === 'dark')}/>
               <Button icon={<FormSchedule color={(currentTheme === 'dark') ? "teal" : "brand"}/>}
                       label="rsvp" 
