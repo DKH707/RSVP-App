@@ -19,7 +19,7 @@ router.post("/", async (req, res) => {
           people: req.body.people,
           note: req.body.note
         };
-        let collection = await db.collection("People");
+        let collection = await db.collection("PublicPeople");
         let result = await collection.insertOne(newDocument);
         res.send(result).status(204);
       } catch (err) {

@@ -195,9 +195,9 @@ export default function Authorize(props){
                     </Box>
                   </Box>}
                   {navigate && <Navigate to="/" replace/>}
-                  
-                  {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}/>: <Image src={redBlackImg} style={{width:"40vw"}}/>}
-                  
+                  <Box align='center'>
+                    {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}/>: <Image src={redBlackImg} style={{width:"40vw"}}/>}
+                  </Box>
                 </Box>
             </PageContent>
             <CustomFooter responsive={true} align="center"/>
