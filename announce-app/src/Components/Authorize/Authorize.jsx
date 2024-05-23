@@ -166,7 +166,7 @@ export default function Authorize(props){
                     {(currentTheme === 'dark') ? 
                     <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=00B1E1&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>
                   : <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=4F2D7F&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>}
-                    <Text>{"< "}<Key size="small"/> {" >"}</Text>
+                    <Text>{"< "} 051124 {" >"}</Text>
                     { (currentTheme === 'dark') ? 
                     <ReactCodeInput type='number'
                                     inputMode='numeric'
