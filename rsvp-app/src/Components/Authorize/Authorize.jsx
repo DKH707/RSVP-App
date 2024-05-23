@@ -10,8 +10,8 @@ import CustomFooter from '../Invite/CustomFooter';
 
 export default function Authorize(props){
 
-    const redBlackImg = require('.//../../imgs/redBlackBTS.png')
-    const whiteRedImg = require('.//../../imgs/whiteRedBTS.png')
+    const redBlackImg = require('../../imgs/redBlackBTS.png')
+    const whiteRedImg = require('../../imgs/whiteRedBTS.png')
 
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme'));
     const [value, setValue] = useState({})
@@ -113,7 +113,9 @@ export default function Authorize(props){
 
     const checkPasscode = async() => {
       try{  
+
         const resp = await fetch(`http://localhost:5050/api/auth`,
+
         {
           method: "POST",
           headers:{
@@ -166,7 +168,9 @@ export default function Authorize(props){
                     {(currentTheme === 'dark') ? 
                     <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=00B1E1&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>
                   : <Markdown>![Typing SVG](https://readme-typing-svg.demolab.com?font=Kode+Mono&pause=3000&color=4F2D7F&center=true&vCenter=true&random=false&width=435&height=60&lines=Enter+Access+Code)</Markdown>}
-                    <Text>{"< "}<Key size="small"/> {" >"}</Text>
+
+                    <Text>{"< Access Code => 051124 >"}</Text>
+
                     { (currentTheme === 'dark') ? 
                     <ReactCodeInput type='number'
                                     inputMode='numeric'
@@ -195,7 +199,9 @@ export default function Authorize(props){
                     </Box>
                   </Box>}
                   {navigate && <Navigate to="/" replace/>}
-                  <Box align='center'>
+
+                  <Box align='center' pad={10}>
+
                     {(currentTheme === 'dark') ? <Image src={whiteRedImg} style={{width:"40vw"}}/>: <Image src={redBlackImg} style={{width:"40vw"}}/>}
                   </Box>
                 </Box>
