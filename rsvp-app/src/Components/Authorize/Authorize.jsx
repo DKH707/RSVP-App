@@ -10,8 +10,8 @@ import CustomFooter from '../Invite/CustomFooter';
 
 export default function Authorize(props){
 
-    const redBlackImg = require('.//../../imgs/redBlackBTS.png')
-    const whiteRedImg = require('.//../../imgs/whiteRedBTS.png')
+    const redBlackImg = require('../../imgs/redBlackBTS.png')
+    const whiteRedImg = require('../../imgs/whiteRedBTS.png')
 
     const [currentTheme, setCurrentTheme] = useState(localStorage.getItem('theme'));
     const [value, setValue] = useState({})
