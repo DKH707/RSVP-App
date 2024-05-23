@@ -13,7 +13,9 @@ export default function RSVPCardTemplate(props) {
   
     const handleRSVPSubmit = (val) => {
       setLoading(true)
+
       fetch(`/api/people`,{
+
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(value)

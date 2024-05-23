@@ -17,7 +17,9 @@ export default function CalendarCardTemplate(props) {
       setLoading(true)
       let results = null;
       try{
+
         results = await fetch(`/api/info`,
+
         {
           method: "POST",
           headers:{

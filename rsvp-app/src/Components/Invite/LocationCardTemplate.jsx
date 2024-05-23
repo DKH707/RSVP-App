@@ -16,7 +16,9 @@ export default function LocationCardTemplate(props) {
     setLoading(true)
     let results = null;
     try{
+
       results = await fetch(`/api/info`,
+
       {
         method: "POST",
         headers:{
