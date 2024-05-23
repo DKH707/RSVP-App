@@ -3,7 +3,7 @@ import Countdown from 'react-countdown';
 import { Box, Markdown, Paragraph, Stack} from "grommet";
 import { Launch, Deploy } from 'grommet-icons';
 
-export default function GraduationCountdown(props){
+export default function EventCountdown(props){
 
     const [dark, setDark] = useState(props.dark);
 
