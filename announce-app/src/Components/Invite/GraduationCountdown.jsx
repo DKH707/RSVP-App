@@ -33,8 +33,8 @@ export default function GraduationCountdown(props){
     }
 
     return <>
-    <Stack anchor="top" margin={{top: "large"}}>
-    <Countdown date={props.when} renderer={renderer}></Countdown>
-    </Stack>
+        <Stack anchor="top" margin={{top: "large"}}>
+        <Countdown date={props.when} renderer={renderer}></Countdown>
+        </Stack>
     </>
 }
