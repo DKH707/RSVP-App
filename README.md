@@ -1,4 +1,4 @@
-# Full-Stack Web Application for Event Announcement
+# Full-Stack Web Application for Event RSVP
 
 <i>This repository was created and designed by Derek Hopkins</i>
 
