@@ -47,7 +47,7 @@ export default function Invite(props) {
 
   const rows = ['auto', 'auto'];
   const columns = ['100%'];
-  const date= '2024-05-11T16:00:00'
+  const date= '2026-05-11T16:00:00'
 
   const rsvpSubmitSuccess = () => {
 
@@ -105,7 +105,7 @@ export default function Invite(props) {
                       color={(currentTheme === 'dark') ? "teal" : "brand"}
                       onClick={()=>{setShowForm(true)}}/>
               <Paragraph justify="center" size="small" color="orange"> encountered an issue? </Paragraph>
-              <Paragraph justify="center" size="small"> <MailOption size="small"/> dhopkins@buildtechsys.com</Paragraph>
+              <Paragraph justify="center" size="small" color="orange"> <MailOption size="small" color="orange"/> dhopkins@buildtechsys.com</Paragraph>
           
             {showForm && (
             <Layer onEsc={()=>{setShowForm(false)}}
