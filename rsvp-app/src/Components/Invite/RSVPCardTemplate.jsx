@@ -14,7 +14,7 @@ export default function RSVPCardTemplate(props) {
     const handleRSVPSubmit = (val) => {
       setLoading(true)
 
-      fetch(`/api/people`,{
+      fetch(`https://rsvp-app-api.vercel.app/api/people`,{
 
         method: "POST",
         headers: {"Content-Type": "application/json"},
