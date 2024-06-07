@@ -114,7 +114,7 @@ export default function Authorize(props){
     const checkPasscode = async() => {
       try{  
 
-        const resp = await fetch(`/api/auth`,
+        const resp = await fetch(`https://rsvp-app-api.vercel.app/api/auth`,
 
         {
           method: "POST",

@@ -18,7 +18,7 @@ export default function CalendarCardTemplate(props) {
       let results = null;
       try{
 
-        results = await fetch(`/api/info`,
+        results = await fetch(`https://rsvp-app-api.vercel.app/api/info`,
 
         {
           method: "POST",
