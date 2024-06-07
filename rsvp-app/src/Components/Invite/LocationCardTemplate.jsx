@@ -17,7 +17,7 @@ export default function LocationCardTemplate(props) {
     let results = null;
     try{
 
-      results = await fetch(`http://localhost:5050/api/info`,
+      results = await fetch(`/api/info`,
 
       {
         method: "POST",

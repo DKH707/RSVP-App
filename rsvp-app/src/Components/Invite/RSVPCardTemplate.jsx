@@ -14,7 +14,7 @@ export default function RSVPCardTemplate(props) {
     const handleRSVPSubmit = (val) => {
       setLoading(true)
 
-      fetch(`http://localhost:5050/api/people`,{
+      fetch(`/api/people`,{
 
         method: "POST",
         headers: {"Content-Type": "application/json"},
