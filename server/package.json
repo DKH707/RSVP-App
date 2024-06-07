@@ -7,7 +7,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --env-file=config.env server",
-    "dev": "nodemon --env-file=config.env server"
+    "dev": "nodemon --env-file=config.env server",
+    "dev_vercel": "nodemon --env-file=config.env api/index",
+    "start_vercel": "node --env-file=config.env api/index"
   },
   "keywords": [],
   "author": "",
